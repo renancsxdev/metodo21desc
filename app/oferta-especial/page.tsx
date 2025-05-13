@@ -78,7 +78,7 @@ export default function OfertaEspecial() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
               <Link
-                href="https://go.tribopay.com.br/06uc8"
+                href="https://go.tribopay.com.br/qryyf"
                 className="px-8 py-5 bg-[#00e676] hover:bg-[#00c853] text-black font-bold rounded-lg text-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(0,230,118,0.5)] md:hover:shadow-[0_0_30px_rgba(0,230,118,0.7)]"
               >
                 Comece Agora por Apenas R$13,99
@@ -282,7 +282,7 @@ export default function OfertaEspecial() {
             </div>
 
             <Link
-              href="https://go.tribopay.com.br/06uc8"
+              href="https://go.tribopay.com.br/qryyf"
               className="inline-flex items-center px-8 py-4 bg-[#00e676] hover:bg-[#00c853] text-black font-bold rounded-lg text-lg transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(0,230,118,0.5)] md:hover:shadow-[0_0_25px_rgba(0,230,118,0.7)]"
             >
               Quero Começar Agora por R$13,99 <ArrowRight className="ml-2 w-5 h-5" />
@@ -357,7 +357,7 @@ export default function OfertaEspecial() {
 
               <div className="w-full md:w-auto">
                 <Link
-                  href="https://go.tribopay.com.br/06uc8"
+                  href="https://go.tribopay.com.br/qryyf"
                   className="w-full md:w-auto px-10 py-5 bg-[#00e676] hover:bg-[#00c853] text-black font-bold rounded-lg text-xl transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(0,230,118,0.5)] md:hover:shadow-[0_0_25px_rgba(0,230,118,0.7)] flex items-center justify-center"
                 >
                   Acesso Imediato por R$13,99
