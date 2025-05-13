@@ -22,7 +22,7 @@ export default function OfertaEspecial() {
       <div className="bg-[#00e676] text-black py-3 px-4 text-center font-bold">
         <div className="container mx-auto flex items-center justify-center gap-2">
           <Percent className="w-5 h-5" />
-          <span>OFERTA ESPECIAL: Acesso completo por apenas R$9,99</span>
+          <span>OFERTA ESPECIAL: Acesso completo por apenas R$13,99</span>
           <Percent className="w-5 h-5" />
         </div>
       </div>
@@ -67,7 +67,7 @@ export default function OfertaEspecial() {
                 <p className="text-[#00e676] font-medium mb-1">OFERTA POR TEMPO LIMITADO</p>
                 <div className="flex items-center justify-center gap-3">
                   <span className="text-gray-400 text-lg line-through">R$19,90</span>
-                  <span className="text-3xl font-bold text-white">R$9,99</span>
+                  <span className="text-3xl font-bold text-white">R$13,99</span>
                 </div>
                 <div className="mt-2">
                   <CountdownTimer minutes={10} />
@@ -78,10 +78,10 @@ export default function OfertaEspecial() {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
               <Link
-                href="https://go.tribopay.com.br/qathlfmbfm"
+                href="https://go.tribopay.com.br/06uc8"
                 className="px-8 py-5 bg-[#00e676] hover:bg-[#00c853] text-black font-bold rounded-lg text-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(0,230,118,0.5)] md:hover:shadow-[0_0_30px_rgba(0,230,118,0.7)]"
               >
-                Comece Agora por Apenas R$9,99
+                Comece Agora por Apenas R$13,99
               </Link>
               <Link
                 href="#conteudo"
@@ -275,17 +275,17 @@ export default function OfertaEspecial() {
             <div className="inline-block bg-[#071510] p-4 rounded-xl border border-[#00e676]/30 mb-6">
               <div className="flex items-center justify-center gap-3 mb-2">
                 <span className="text-gray-400 text-lg line-through">R$19,90</span>
-                <span className="text-3xl font-bold text-white">R$9,99</span>
-                <span className="bg-[#00e676] text-black px-2 py-1 rounded-full text-xs font-bold">50% OFF</span>
+                <span className="text-3xl font-bold text-white">R$13,99</span>
+                <span className="bg-[#00e676] text-black px-2 py-1 rounded-full text-xs font-bold">30% OFF</span>
               </div>
               <p className="text-gray-300 text-sm">Oferta por tempo limitado!</p>
             </div>
 
             <Link
-              href="https://go.tribopay.com.br/qathlfmbfm"
+              href="https://go.tribopay.com.br/06uc8"
               className="inline-flex items-center px-8 py-4 bg-[#00e676] hover:bg-[#00c853] text-black font-bold rounded-lg text-lg transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(0,230,118,0.5)] md:hover:shadow-[0_0_25px_rgba(0,230,118,0.7)]"
             >
-              Quero Começar Agora por R$9,99 <ArrowRight className="ml-2 w-5 h-5" />
+              Quero Começar Agora por R$13,99 <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
           </div>
         </div>
@@ -349,18 +349,18 @@ export default function OfertaEspecial() {
                   <span className="text-gray-400 text-lg line-through">De R$19,90</span>
                 </div>
                 <div className="flex items-center justify-center md:justify-start gap-2">
-                  <span className="text-4xl md:text-6xl font-bold text-white">R$9,99</span>
-                  <span className="bg-[#00e676] text-black px-3 py-1 rounded-full text-sm font-bold">50% OFF</span>
+                  <span className="text-4xl md:text-6xl font-bold text-white">R$13,99</span>
+                  <span className="bg-[#00e676] text-black px-3 py-1 rounded-full text-sm font-bold">30% OFF</span>
                 </div>
                 <p className="text-gray-400 mt-2">Acesso vitalício a todo o conteúdo</p>
               </div>
 
               <div className="w-full md:w-auto">
                 <Link
-                  href="https://go.tribopay.com.br/qathlfmbfm"
+                  href="https://go.tribopay.com.br/06uc8"
                   className="w-full md:w-auto px-10 py-5 bg-[#00e676] hover:bg-[#00c853] text-black font-bold rounded-lg text-xl transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(0,230,118,0.5)] md:hover:shadow-[0_0_25px_rgba(0,230,118,0.7)] flex items-center justify-center"
                 >
-                  Acesso Imediato por R$9,99
+                  Acesso Imediato por R$13,99
                 </Link>
                 <p className="text-center text-gray-400 text-sm mt-3">Pagamento seguro via PIX ou cartão</p>
               </div>
@@ -389,7 +389,7 @@ export default function OfertaEspecial() {
             <div className="bg-[#00e676]/10 p-4 rounded-lg border border-[#00e676]/30 text-center">
               <p className="text-white font-medium">
                 Oferta especial por tempo limitado! De <span className="line-through">R$19,90</span> por apenas{" "}
-                <span className="text-[#00e676] font-bold">R$9,99</span>
+                <span className="text-[#00e676] font-bold">R$13,99</span>
               </p>
             </div>
           </div>

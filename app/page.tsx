@@ -36,11 +36,11 @@ export default function Quiz() {
         // Se respondeu que R$19,90 é caro, vai para a próxima pergunta
         setStep(step + 1)
       } else if (step === 4) {
-        // Na quarta pergunta, se respondeu que R$9,90 cabe no orçamento, vai para a oferta especial
+        // Na quarta pergunta, se respondeu que R$13,99 cabe no orçamento, vai para a oferta especial
         if (answer) {
           router.push("/oferta-especial")
         } else {
-          // Se respondeu que R$9,90 também é caro, vai para uma página de agradecimento
+          // Se respondeu que R$13,99 também é caro, vai para uma página de agradecimento
           router.push("/obrigado")
         }
       } else {
@@ -54,7 +54,7 @@ export default function Quiz() {
     "Você sente que a falta de produtividade está prejudicando sua rotina?",
     "Você já tentou outras técnicas para melhorar sua produtividade?",
     "Um investimento de R$19,90 para transformar sua produtividade cabe no seu orçamento?",
-    "E um investimento de apenas R$9,99 seria mais adequado para você?",
+    "E um investimento de apenas R$13,99 seria mais adequado para você?",
   ]
 
   return (
