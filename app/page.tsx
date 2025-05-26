@@ -2,130 +2,158 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { CheckCircle, X, Loader2 } from "lucide-react"
+import { CheckCircle, X, Loader2, Zap, Star, Gift } from "lucide-react"
 
 export default function Quiz() {
   const router = useRouter()
   const [step, setStep] = useState(1)
-  const [answers, setAnswers] = useState<Record<number, boolean>>({})
   const [analyzing, setAnalyzing] = useState(false)
-  const [analysisText, setAnalysisText] = useState("")
+  const [currentPrice, setCurrentPrice] = useState(49.9)
+  const [showPrice, setShowPrice] = useState(false)
+
+  const originalPrice = 49.9
 
   const handleAnswer = (step: number, answer: boolean) => {
-    setAnswers({ ...answers, [step]: answer })
     setAnalyzing(true)
 
-    // Textos de análise para cada pergunta
-    const analysisTexts = [
-      "Analisando sua relação com produtividade...",
-      "Processando suas experiências anteriores...",
-      "Avaliando sua capacidade de investimento...",
-      "Verificando opções de valor acessível...",
-    ]
-
-    setAnalysisText(analysisTexts[step - 1])
-
-    // Simula um tempo de análise
     setTimeout(() => {
       setAnalyzing(false)
+      setShowPrice(true) // Mostra o preço após a primeira resposta
 
-      if (step === 3 && answer) {
-        // Se respondeu que R$19,90 cabe no orçamento, vai para o site original
-        router.push("https://paymetodo21.vercel.app")
-      } else if (step === 3 && !answer) {
-        // Se respondeu que R$19,90 é caro, vai para a próxima pergunta
-        setStep(step + 1)
-      } else if (step === 4) {
-        // Na quarta pergunta, se respondeu que R$13,99 cabe no orçamento, vai para a oferta especial
-        if (answer) {
-          router.push("/oferta-especial")
-        } else {
-          // Se respondeu que R$13,99 também é caro, vai para uma página de agradecimento
-          router.push("/obrigado")
+      let newPrice = currentPrice
+
+      if (answer) {
+        // Respostas "SIM" - descontos maiores
+        switch (step) {
+          case 1:
+            newPrice = 39.9
+            break
+          case 2:
+            newPrice = 29.9
+            break
+          case 3:
+            newPrice = 19.9
+            break
+          case 4:
+            newPrice = 13.99
+            break
         }
       } else {
-        // Avança para a próxima pergunta
+        // Respostas "NÃO" - descontos menores
+        switch (step) {
+          case 1:
+            newPrice = 42.9
+            break
+          case 2:
+            newPrice = 34.9
+            break
+          case 3:
+            newPrice = 24.9
+            break
+          case 4:
+            newPrice = 13.99
+            break
+        }
+      }
+
+      setCurrentPrice(newPrice)
+
+      if (step === 4) {
+        const params = new URLSearchParams({
+          discount: "72",
+          completed: "true",
+        })
+        router.push(`/oferta-especial?${params.toString()}`)
+      } else {
         setStep(step + 1)
       }
     }, 1500)
   }
 
   const questions = [
-    "Você sente que a falta de produtividade está prejudicando sua rotina?",
-    "Você já tentou outras técnicas para melhorar sua produtividade?",
-    "Um investimento de R$19,90 para transformar sua produtividade cabe no seu orçamento?",
-    "E um investimento de apenas R$13,99 seria mais adequado para você?",
+    "Você sente que a procrastinação está limitando seu potencial?",
+    "Está disposto(a) a dedicar 21 dias para mudar sua produtividade?",
+    "Acredita que investir em si mesmo pode transformar sua vida?",
+    "Quer garantir o melhor preço para o Método 21?",
   ]
+
+  const questionIcons = [
+    <Zap key="2" className="w-8 h-8 text-[#00e676] mb-4" />,
+    <Star key="3" className="w-8 h-8 text-[#00e676] mb-4" />,
+    <Gift key="4" className="w-8 h-8 text-[#00e676] mb-4" />,
+  ]
+
+  const currentDiscount = Math.round(((originalPrice - currentPrice) / originalPrice) * 100)
 
   return (
     <div className="min-h-screen bg-[#0a1a14] flex items-center justify-center p-4">
-      {/* Quiz Container Flutuante */}
-      <div className="w-full max-w-md bg-gradient-to-br from-[#071510] to-[#0a1a14] p-6 rounded-xl border border-[#00e676]/30 shadow-[0_0_30px_rgba(0,230,118,0.2)]">
-        {/* Progress Indicator */}
-        <div className="flex justify-between mb-6 relative">
-          <div className="absolute top-1/2 left-0 right-0 h-1 bg-[#071510] -translate-y-1/2 z-0"></div>
-          <div className="flex justify-between w-full relative z-10">
-            <div
-              className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                step >= 1 ? "bg-[#00e676] text-black" : "bg-[#071510] text-gray-400"
-              } text-xs font-bold`}
-            >
-              1
+      <div className="w-full max-w-md bg-gradient-to-br from-[#071510] to-[#0a1a14] p-8 rounded-xl border border-[#00e676]/30 shadow-[0_0_30px_rgba(0,230,118,0.2)]">
+        {/* Preço Atual - Só aparece após primeira resposta */}
+        {showPrice && (
+          <div className="text-center mb-8 p-4 bg-[#00e676]/10 rounded-lg border border-[#00e676]/30">
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-gray-400 text-lg line-through">R${originalPrice.toFixed(2)}</span>
+              <span className="text-3xl font-bold text-white">R${currentPrice.toFixed(2)}</span>
             </div>
-            <div
-              className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                step >= 2 ? "bg-[#00e676] text-black" : "bg-[#071510] text-gray-400"
-              } text-xs font-bold`}
-            >
-              2
-            </div>
-            <div
-              className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                step >= 3 ? "bg-[#00e676] text-black" : "bg-[#071510] text-gray-400"
-              } text-xs font-bold`}
-            >
-              3
-            </div>
-            <div
-              className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                step >= 4 ? "bg-[#00e676] text-black" : "bg-[#071510] text-gray-400"
-              } text-xs font-bold`}
-            >
-              4
-            </div>
+            {currentDiscount > 0 && (
+              <span className="inline-block mt-2 bg-[#00e676] text-black px-3 py-1 rounded-full text-sm font-bold">
+                {currentDiscount}% OFF
+              </span>
+            )}
+          </div>
+        )}
+
+        {/* Progress */}
+        <div className="flex justify-center mb-8">
+          <div className="flex gap-2">
+            {[1, 2, 3, 4].map((num) => (
+              <div
+                key={num}
+                className={`w-3 h-3 rounded-full ${
+                  step >= num ? "bg-[#00e676]" : "bg-gray-600"
+                } transition-all duration-300`}
+              />
+            ))}
           </div>
         </div>
 
         {analyzing ? (
-          // Estado de análise
-          <div className="flex flex-col items-center justify-center py-8">
-            <Loader2 className="w-10 h-10 text-[#00e676] animate-spin mb-4" />
-            <p className="text-white text-center font-medium">{analysisText}</p>
+          <div className="flex flex-col items-center justify-center py-12">
+            <Loader2 className="w-12 h-12 text-[#00e676] animate-spin mb-4" />
+            <p className="text-white text-center">Aplicando desconto...</p>
           </div>
         ) : (
-          // Estado de pergunta
           <>
             {/* Question */}
             <div className="text-center mb-6">
-              <h2 className="text-xl font-bold text-white mb-0">{questions[step - 1]}</h2>
+              {questionIcons[step - 1]}
+              <h2 className="text-xl font-bold text-white mb-2">{questions[step - 1]}</h2>
+              <p className="text-gray-400 text-sm">Pergunta {step} de 4</p>
+            </div>
+
+            {/* Indicação de Desconto */}
+            <div className="text-center mb-6 p-3 bg-[#071510]/50 rounded-lg border border-[#00e676]/20">
+              <p className="text-[#00e676] text-sm font-medium">✨ Responda SIM e ganhe desconto no preço!</p>
             </div>
 
             {/* Answer Buttons */}
-            <div className="grid grid-cols-2 gap-3 mb-0">
+            <div className="grid grid-cols-2 gap-4">
               <button
                 onClick={() => handleAnswer(step, true)}
-                className="flex flex-col items-center p-4 bg-[#071510] rounded-lg border border-[#00e676]/20 hover:border-[#00e676]/50 hover:shadow-[0_0_20px_rgba(0,230,118,0.2)] transition-all"
+                className="flex flex-col items-center p-6 bg-gradient-to-br from-[#00e676]/20 to-[#00e676]/10 rounded-lg border border-[#00e676]/30 hover:border-[#00e676]/60 hover:shadow-[0_0_20px_rgba(0,230,118,0.3)] transition-all transform hover:scale-105"
               >
                 <CheckCircle className="w-8 h-8 text-[#00e676] mb-2" />
-                <span className="text-white font-medium">Sim</span>
+                <span className="text-white font-bold">SIM</span>
+                <span className="text-[#00e676] text-xs mt-1">Aplicar desconto</span>
               </button>
 
               <button
                 onClick={() => handleAnswer(step, false)}
-                className="flex flex-col items-center p-4 bg-[#071510] rounded-lg border border-[#00e676]/20 hover:border-[#00e676]/50 hover:shadow-[0_0_20px_rgba(0,230,118,0.2)] transition-all"
+                className="flex flex-col items-center p-6 bg-[#071510] rounded-lg border border-gray-600/20 hover:border-gray-500/50 transition-all"
               >
-                <X className="w-8 h-8 text-white mb-2" />
-                <span className="text-white font-medium">Não</span>
+                <X className="w-8 h-8 text-gray-400 mb-2" />
+                <span className="text-white font-bold">NÃO</span>
+                <span className="text-gray-400 text-xs mt-1">Pular desconto</span>
               </button>
             </div>
           </>

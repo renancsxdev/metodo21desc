@@ -1,3 +1,7 @@
+"use client"
+
+import { useSearchParams } from "next/navigation"
+import { Suspense } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -12,18 +16,34 @@ import {
   ArrowRight,
   ChevronDown,
   Percent,
+  Star,
 } from "lucide-react"
 import CountdownTimer from "@/components/countdown-timer"
 
-export default function OfertaEspecial() {
+function OfertaEspecialContent() {
+  const searchParams = useSearchParams()
+  const discount = Number.parseInt(searchParams.get("discount") || "72")
+  const completed = searchParams.get("completed") === "true"
+  const maxDiscount = searchParams.get("maxDiscount") === "true"
+
+  const originalPrice = 49.9
+  const finalPrice = 13.99 // SEMPRE este preço
+  const actualDiscount = 72 // SEMPRE 72% OFF para chegar em R$13,99
+
   return (
     <div className="min-h-screen bg-[#0a1a14] text-white">
       {/* Banner de Oferta Especial */}
-      <div className="bg-[#00e676] text-black py-3 px-4 text-center font-bold">
-        <div className="container mx-auto flex items-center justify-center gap-2">
+      <div className="bg-gradient-to-r from-[#00e676] to-[#00c853] text-black py-4 px-4 text-center font-bold">
+        <div className="container mx-auto flex items-center justify-center gap-2 flex-wrap">
           <Percent className="w-5 h-5" />
-          <span>OFERTA ESPECIAL: Acesso completo por apenas R$13,99</span>
-          <Percent className="w-5 h-5" />
+          <span>
+            {completed && maxDiscount
+              ? "PARABÉNS! Você desbloqueou o DESCONTO MÁXIMO de 72%!"
+              : completed
+                ? "OFERTA ESPECIAL: 72% OFF garantido para você!"
+                : "OFERTA ESPECIAL: 72% OFF por tempo limitado!"}
+          </span>
+          <Star className="w-5 h-5" />
         </div>
       </div>
 
@@ -62,15 +82,27 @@ export default function OfertaEspecial() {
                 consistência.
               </p>
 
-              {/* Destaque da Oferta Especial */}
-              <div className="bg-[#071510]/80 p-4 rounded-xl border border-[#00e676]/30 inline-block mb-8">
-                <p className="text-[#00e676] font-medium mb-1">OFERTA POR TEMPO LIMITADO</p>
-                <div className="flex items-center justify-center gap-3">
-                  <span className="text-gray-400 text-lg line-through">R$19,90</span>
-                  <span className="text-3xl font-bold text-white">R$13,99</span>
+              {/* Destaque da Oferta */}
+              <div className="bg-[#071510]/80 p-6 rounded-xl border border-[#00e676]/30 inline-block mb-8">
+                <p className="text-[#00e676] font-medium mb-2">
+                  {completed && maxDiscount
+                    ? "VOCÊ CONQUISTOU O DESCONTO MÁXIMO!"
+                    : completed
+                      ? "SUA OFERTA ESPECIAL GARANTIDA"
+                      : "OFERTA POR TEMPO LIMITADO"}
+                </p>
+                <div className="flex items-center justify-center gap-3 mb-2">
+                  <span className="text-gray-400 text-xl line-through">
+                    R${originalPrice.toFixed(2).replace(".", ",")}
+                  </span>
+                  <span className="text-4xl font-bold text-white">R$13,99</span>
+                  <span className="bg-[#00e676] text-black px-3 py-1 rounded-full text-sm font-bold">72% OFF</span>
                 </div>
-                <div className="mt-2">
-                  <CountdownTimer minutes={10} />
+                <p className="text-[#00e676] text-sm mb-2">
+                  {maxDiscount ? "Você economizou o MÁXIMO possível: R$35,91" : "Economia garantida de R$35,91"}
+                </p>
+                <div className="mt-3">
+                  <CountdownTimer minutes={15} />
                 </div>
               </div>
             </div>
@@ -79,9 +111,9 @@ export default function OfertaEspecial() {
             <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
               <Link
                 href="https://go.tribopay.com.br/qryyf"
-                className="px-8 py-5 bg-[#00e676] hover:bg-[#00c853] text-black font-bold rounded-lg text-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(0,230,118,0.5)] md:hover:shadow-[0_0_30px_rgba(0,230,118,0.7)]"
+                className="px-8 py-5 bg-gradient-to-r from-[#00e676] to-[#00c853] hover:from-[#00c853] hover:to-[#00e676] text-black font-bold rounded-lg text-lg transition-all transform hover:scale-105 shadow-[0_0_20px_rgba(0,230,118,0.5)] md:hover:shadow-[0_0_30px_rgba(0,230,118,0.7)]"
               >
-                Comece Agora por Apenas R$13,99
+                {completed && maxDiscount ? "Garantir Desconto MÁXIMO por R$13,99" : "Comece Agora por Apenas R$13,99"}
               </Link>
               <Link
                 href="#conteudo"
@@ -274,11 +306,10 @@ export default function OfertaEspecial() {
           <div className="mt-16 text-center">
             <div className="inline-block bg-[#071510] p-4 rounded-xl border border-[#00e676]/30 mb-6">
               <div className="flex items-center justify-center gap-3 mb-2">
-                <span className="text-gray-400 text-lg line-through">R$19,90</span>
+                <span className="text-gray-400 text-lg line-through">R$49,90</span>
                 <span className="text-3xl font-bold text-white">R$13,99</span>
-                <span className="bg-[#00e676] text-black px-2 py-1 rounded-full text-xs font-bold">30% OFF</span>
+                <span className="bg-[#00e676] text-black px-2 py-1 rounded-full text-xs font-bold">72% OFF</span>
               </div>
-              <p className="text-gray-300 text-sm">Oferta por tempo limitado!</p>
             </div>
 
             <Link
@@ -339,18 +370,28 @@ export default function OfertaEspecial() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto bg-gradient-to-br from-[#071510] to-[#0a1a14] p-8 md:p-12 rounded-2xl border border-[#00e676]/30 shadow-[0_0_30px_rgba(0,230,118,0.1)] md:hover:shadow-[0_0_40px_rgba(0,230,118,0.2)] transition-all">
             <div className="text-center mb-8">
-              <h2 className="text-3xl md:text-5xl font-bold mb-6">Invista em Sua Produtividade</h2>
-              <p className="text-xl text-gray-300">Transforme sua rotina e elimine a procrastinação com o Método 21</p>
+              <h2 className="text-3xl md:text-5xl font-bold mb-6">
+                {completed && maxDiscount
+                  ? "Você Conquistou o Desconto Máximo!"
+                  : completed
+                    ? "Sua Oferta Especial Garantida"
+                    : "Transforme Sua Produtividade"}
+              </h2>
+              <p className="text-xl text-gray-300">
+                {completed && maxDiscount
+                  ? "Parabéns! Você desbloqueou 72% OFF - a maior economia possível!"
+                  : "Método 21 com 72% de desconto - De R$49,90 por apenas R$13,99"}
+              </p>
             </div>
 
             <div className="flex flex-col md:flex-row justify-between items-center gap-8 mb-10">
               <div className="text-center md:text-left">
                 <div className="mb-2">
-                  <span className="text-gray-400 text-lg line-through">De R$19,90</span>
+                  <span className="text-gray-400 text-lg line-through">De R$49,90</span>
                 </div>
                 <div className="flex items-center justify-center md:justify-start gap-2">
                   <span className="text-4xl md:text-6xl font-bold text-white">R$13,99</span>
-                  <span className="bg-[#00e676] text-black px-3 py-1 rounded-full text-sm font-bold">30% OFF</span>
+                  <span className="bg-[#00e676] text-black px-3 py-1 rounded-full text-sm font-bold">72% OFF</span>
                 </div>
                 <p className="text-gray-400 mt-2">Acesso vitalício a todo o conteúdo</p>
               </div>
@@ -358,14 +399,15 @@ export default function OfertaEspecial() {
               <div className="w-full md:w-auto">
                 <Link
                   href="https://go.tribopay.com.br/qryyf"
-                  className="w-full md:w-auto px-10 py-5 bg-[#00e676] hover:bg-[#00c853] text-black font-bold rounded-lg text-xl transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(0,230,118,0.5)] md:hover:shadow-[0_0_25px_rgba(0,230,118,0.7)] flex items-center justify-center"
+                  className="w-full md:w-auto px-10 py-5 bg-gradient-to-r from-[#00e676] to-[#00c853] hover:from-[#00c853] hover:to-[#00e676] text-black font-bold rounded-lg text-xl transition-all transform hover:scale-105 shadow-[0_0_15px_rgba(0,230,118,0.5)] md:hover:shadow-[0_0_25px_rgba(0,230,118,0.7)] flex items-center justify-center"
                 >
-                  Acesso Imediato por R$13,99
+                  {completed && maxDiscount ? `Garantir Tudo por R$13,99` : "Acesso Imediato por R$13,99"}
                 </Link>
                 <p className="text-center text-gray-400 text-sm mt-3">Pagamento seguro via PIX ou cartão</p>
               </div>
             </div>
 
+            {/* Lista de benefícios incluindo bônus */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
               <div className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-[#00e676] flex-shrink-0 mt-1" />
@@ -388,8 +430,9 @@ export default function OfertaEspecial() {
             {/* Destaque Final */}
             <div className="bg-[#00e676]/10 p-4 rounded-lg border border-[#00e676]/30 text-center">
               <p className="text-white font-medium">
-                Oferta especial por tempo limitado! De <span className="line-through">R$19,90</span> por apenas{" "}
-                <span className="text-[#00e676] font-bold">R$13,99</span>
+                {completed && maxDiscount
+                  ? "🏆 DESCONTO MÁXIMO CONQUISTADO: 72% OFF - Método 21 por apenas R$13,99!"
+                  : "🔥 Oferta especial: De R$49,90 por apenas R$13,99 - Economia de R$35,91!"}
               </p>
             </div>
           </div>
@@ -420,5 +463,19 @@ export default function OfertaEspecial() {
         </div>
       </footer>
     </div>
+  )
+}
+
+export default function OfertaEspecial() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-[#0a1a14] flex items-center justify-center">
+          <div className="text-white">Carregando sua oferta personalizada...</div>
+        </div>
+      }
+    >
+      <OfertaEspecialContent />
+    </Suspense>
   )
 }
