@@ -1,69 +1,46 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import { CheckCircle, X, Loader2, Zap, Star, Gift } from "lucide-react"
 
 export default function Quiz() {
-  const router = useRouter()
   const [step, setStep] = useState(1)
   const [analyzing, setAnalyzing] = useState(false)
-  const [currentPrice, setCurrentPrice] = useState(49.9)
+  const [currentPrice, setCurrentPrice] = useState(97.9)
   const [showPrice, setShowPrice] = useState(false)
 
-  const originalPrice = 49.9
+  const originalPrice = 97.9
 
   const handleAnswer = (step: number, answer: boolean) => {
     setAnalyzing(true)
 
     setTimeout(() => {
       setAnalyzing(false)
-      setShowPrice(true) // Mostra o preço após a primeira resposta
+      setShowPrice(true) // Mostra o desconto após cada resposta
 
       let newPrice = currentPrice
 
-      if (answer) {
-        // Respostas "SIM" - descontos maiores
-        switch (step) {
-          case 1:
-            newPrice = 39.9
-            break
-          case 2:
-            newPrice = 29.9
-            break
-          case 3:
-            newPrice = 19.9
-            break
-          case 4:
-            newPrice = 13.99
-            break
-        }
-      } else {
-        // Respostas "NÃO" - descontos menores
-        switch (step) {
-          case 1:
-            newPrice = 42.9
-            break
-          case 2:
-            newPrice = 34.9
-            break
-          case 3:
-            newPrice = 24.9
-            break
-          case 4:
-            newPrice = 13.99
-            break
-        }
+      // Aplica desconto independente da resposta até chegar em R$29,90
+      switch (step) {
+        case 1:
+          newPrice = 79.9 // ~18% OFF
+          break
+        case 2:
+          newPrice = 59.9 // ~39% OFF
+          break
+        case 3:
+          newPrice = 39.9 // ~59% OFF
+          break
+        case 4:
+          newPrice = 29.9 // ~70% OFF
+          break
       }
 
       setCurrentPrice(newPrice)
 
       if (step === 4) {
-        const params = new URLSearchParams({
-          discount: "72",
-          completed: "true",
-        })
-        router.push(`/oferta-especial?${params.toString()}`)
+        // Redireciona para o link externo
+        window.location.href = "https://paymetodo21.vercel.app"
       } else {
         setStep(step + 1)
       }
@@ -78,9 +55,10 @@ export default function Quiz() {
   ]
 
   const questionIcons = [
-    <Zap key="2" className="w-8 h-8 text-[#00e676] mb-4" />,
-    <Star key="3" className="w-8 h-8 text-[#00e676] mb-4" />,
-    <Gift key="4" className="w-8 h-8 text-[#00e676] mb-4" />,
+    <Zap key="1" className="w-8 h-8 text-[#00e676] mb-4" />,
+    <Star key="2" className="w-8 h-8 text-[#00e676] mb-4" />,
+    <Gift key="3" className="w-8 h-8 text-[#00e676] mb-4" />,
+    <CheckCircle key="4" className="w-8 h-8 text-[#00e676] mb-4" />,
   ]
 
   const currentDiscount = Math.round(((originalPrice - currentPrice) / originalPrice) * 100)
@@ -88,18 +66,14 @@ export default function Quiz() {
   return (
     <div className="min-h-screen bg-[#0a1a14] flex items-center justify-center p-4">
       <div className="w-full max-w-md bg-gradient-to-br from-[#071510] to-[#0a1a14] p-8 rounded-xl border border-[#00e676]/30 shadow-[0_0_30px_rgba(0,230,118,0.2)]">
-        {/* Preço Atual - Só aparece após primeira resposta */}
+        {/* Preço Atual - Mostra apenas desconto após cada resposta */}
         {showPrice && (
           <div className="text-center mb-8 p-4 bg-[#00e676]/10 rounded-lg border border-[#00e676]/30">
-            <div className="flex items-center justify-center gap-3">
-              <span className="text-gray-400 text-lg line-through">R${originalPrice.toFixed(2)}</span>
-              <span className="text-3xl font-bold text-white">R${currentPrice.toFixed(2)}</span>
-            </div>
-            {currentDiscount > 0 && (
-              <span className="inline-block mt-2 bg-[#00e676] text-black px-3 py-1 rounded-full text-sm font-bold">
-                {currentDiscount}% OFF
+            <div className="flex items-center justify-center">
+              <span className="bg-[#00e676] text-black px-4 py-2 rounded-full text-lg font-bold">
+                {currentDiscount}% OFF aplicado!
               </span>
-            )}
+            </div>
           </div>
         )}
 
@@ -133,7 +107,7 @@ export default function Quiz() {
 
             {/* Indicação de Desconto */}
             <div className="text-center mb-6 p-3 bg-[#071510]/50 rounded-lg border border-[#00e676]/20">
-              <p className="text-[#00e676] text-sm font-medium">✨ Responda SIM e ganhe desconto no preço!</p>
+              <p className="text-[#00e676] text-sm font-medium">✨ Responda e ganhe desconto no preço!</p>
             </div>
 
             {/* Answer Buttons */}
@@ -153,7 +127,7 @@ export default function Quiz() {
               >
                 <X className="w-8 h-8 text-gray-400 mb-2" />
                 <span className="text-white font-bold">NÃO</span>
-                <span className="text-gray-400 text-xs mt-1">Pular desconto</span>
+                <span className="text-gray-400 text-xs mt-1">Aplicar desconto</span>
               </button>
             </div>
           </>
